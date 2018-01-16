@@ -68,7 +68,9 @@ swiftmailer:
     host: '%mailer_host%'
     username: '%mailer_user%'
     password: '%mailer_password%'
-    spool: { type: memory }
+    encryption: '%mailer_encryption%'
+    port: '%mailer_port%'
+    auth_mode: '%mailer_auth_mode%'
 
 fos_rest:
     routing_loader:
@@ -79,13 +81,13 @@ fos_rest:
         serialize_null: true
     format_listener:
         rules:
-#            - { path: '^/', priorities: ['json'], fallback_format: 'json' }
-            - { path: '^/', priorities: [ 'html', '*/*'], fallback_format: ~, prefer_extension: false }
+            - { path: '^/', priorities: ['json'], fallback_format: 'json' }
+#            - { path: '^/', priorities: [ 'html', '*/*'], fallback_format: ~, prefer_extension: false }
 
 fos_user:
     db_driver:     orm
     firewall_name: main
     user_class:    UserBundle\Entity\User
     from_email:
-      address: ulysse.hall@gmail.com
-      sender_name: urbex
+      address: admin@livepush.fr
+      sender_name: Unleased App
