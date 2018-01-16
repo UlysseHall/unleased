@@ -1,0 +1,5 @@
+main:
+    type: rest
+    resource: "@MainBundle/Controller/"
+    prefix:   /
+
