@@ -24,9 +24,11 @@ class MainController extends Controller
      * @Rest\View()
      * @Rest\Get("/register/{email}/{username}/{password}/{code}", name="main_api_register")
      */
-    public function RegisterAction($email, $username, $password, $code)
+    public function RegisterAction(Request $request)
     {
-        $request = Request::createFromGlobals();
+        $postVars = $request->request->all();
+        return dump($postVars);
+        die();
         $tokenGenerator = $this->container->get('fos_user.util.token_generator');
         $mailer = $this->container->get('fos_user.mailer');
         $session = new Session();

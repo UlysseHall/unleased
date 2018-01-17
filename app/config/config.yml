@@ -10,6 +10,9 @@ imports:
 parameters:
     locale: fr
 
+sensio_framework_extra:
+    request: { converters: true }
+
 framework:
     #esi: ~
     translator: { fallbacks: ['%locale%'] }
@@ -70,6 +73,9 @@ swiftmailer:
     password: '%mailer_password%'
 
 fos_rest:
+    param_fetcher_listener: force
+    body_converter:
+        enabled: true
     routing_loader:
         include_format: false
     view:
