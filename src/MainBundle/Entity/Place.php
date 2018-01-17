@@ -232,7 +232,7 @@ class Place
      */
     public function setLevel(\MainBundle\Entity\Level $level)
     {
-        $level->addPlace(this);
+        $level->addPlace($this);
         $this->level = $level;
 
         return $this;

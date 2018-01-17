@@ -41,6 +41,11 @@ class User extends BaseUser
     private $level;
 
     /**
+     * @ORM\OneToMany(targetEntity="MainBundle\Entity\Code", mappedBy="user")
+     */
+    private $codes;
+
+    /**
      * Get id
      *
      * @return int
@@ -73,5 +78,65 @@ class User extends BaseUser
     {
         return $this->apiKey;
     }
-}
 
+    /**
+     * Add place
+     *
+     * @param \MainBundle\Entity\Place $place
+     *
+     * @return User
+     */
+    public function addPlace(\MainBundle\Entity\Place $place)
+    {
+        $place->setUser(this);
+        $this->places[] = $place;
+
+        return $this;
+    }
+
+    /**
+     * Remove place
+     *
+     * @param \MainBundle\Entity\Place $place
+     */
+    public function removePlace(\MainBundle\Entity\Place $place)
+    {
+        $place->setUser(null);
+        $this->places->removeElement($place);
+    }
+
+    /**
+     * Get places
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPlaces()
+    {
+        return $this->places;
+    }
+
+    /**
+     * Set level
+     *
+     * @param \MainBundle\Entity\Level $level
+     *
+     * @return User
+     */
+    public function setLevel(\MainBundle\Entity\Level $level = null)
+    {
+        $level->addUser(this);
+        $this->level = $level;
+
+        return $this;
+    }
+
+    /**
+     * Get level
+     *
+     * @return \MainBundle\Entity\Level
+     */
+    public function getLevel()
+    {
+        return $this->level;
+    }
+}

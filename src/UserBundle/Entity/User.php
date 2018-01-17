@@ -41,6 +41,11 @@ class User extends BaseUser
     private $level;
 
     /**
+     * @ORM\OneToMany(targetEntity="MainBundle\Entity\Code", mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $codes;
+
+    /**
      * Get id
      *
      * @return int
@@ -83,7 +88,7 @@ class User extends BaseUser
      */
     public function addPlace(\MainBundle\Entity\Place $place)
     {
-        $place->setUser(this);
+        $place->setUser($this);
         $this->places[] = $place;
 
         return $this;
@@ -119,7 +124,7 @@ class User extends BaseUser
      */
     public function setLevel(\MainBundle\Entity\Level $level = null)
     {
-        $level->addUser(this);
+        $level->addUser($this);
         $this->level = $level;
 
         return $this;
@@ -133,5 +138,40 @@ class User extends BaseUser
     public function getLevel()
     {
         return $this->level;
+    }
+
+    /**
+     * Add code
+     *
+     * @param \MainBundle\Entity\Code $code
+     *
+     * @return User
+     */
+    public function addCode(\MainBundle\Entity\Code $code)
+    {
+        $code->setUser($this);
+        $this->codes[] = $code;
+
+        return $this;
+    }
+
+    /**
+     * Remove code
+     *
+     * @param \MainBundle\Entity\Code $code
+     */
+    public function removeCode(\MainBundle\Entity\Code $code)
+    {
+        $this->codes->removeElement($code);
+    }
+
+    /**
+     * Get codes
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCodes()
+    {
+        return $this->codes;
     }
 }

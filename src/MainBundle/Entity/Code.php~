@@ -37,7 +37,7 @@ class Code
 
     /**
      * @ORM\ManyToOne(targetEntity="UserBundle\Entity\User", inversedBy="codes")
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\JoinColumn(nullable=false)
      */
     private $user;
 
@@ -105,28 +105,5 @@ class Code
     {
         return $this->enable;
     }
-
-    /**
-     * Set user
-     *
-     * @param \UserBundle\Entity\User $user
-     *
-     * @return Code
-     */
-    public function setUser(\UserBundle\Entity\User $user)
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
-    /**
-     * Get user
-     *
-     * @return \UserBundle\Entity\User
-     */
-    public function getUser()
-    {
-        return $this->user;
-    }
 }
+

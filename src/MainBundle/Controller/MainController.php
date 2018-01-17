@@ -17,17 +17,14 @@ class MainController extends Controller
      */
     public function indexAction()
     {
-        $code = new Code();
-        dump($code);
-        die();
         return new Response("Bienvenu sur l'API de Unleased, la super app secrète dont faut pas trop parler.");
     }
 
     /**
      * @Rest\View()
-     * @Rest\Get("/register/{email}/{username}/{password}", name="main_api_register")
+     * @Rest\Get("/register/{email}/{username}/{password}/{code}", name="main_api_register")
      */
-    public function RegisterAction($email, $username, $password)
+    public function RegisterAction($email, $username, $password, $code)
     {
         $request = Request::createFromGlobals();
         $tokenGenerator = $this->container->get('fos_user.util.token_generator');
@@ -48,11 +45,27 @@ class MainController extends Controller
             return ['error' => "Email already taken"];
         }
 
+        $em = $this->getDoctrine()->getManager();
+        $key = $em->getRepository('MainBundle:Code')->findOneBy(['code' => $code]);
+
+        if(!$key || !$key->getEnable()) {
+            return ['error' => "Incorrect code"];
+        }
+
+        $key->setEnable(false);
+
+        $newCode1 = new Code();
+        $newCode2 = new Code();
+
         $user = $userManager->createUser();
         $user->setUsername($username);
         $user->setEmail($email);
         $user->setPlainPassword($password);
         $user->setEnabled(true);
+        $user->addCode($newCode1);
+        $user->addCode($newCode2);
+
+        $em->flush();
 
         if (null === $user->getConfirmationToken()) {
             $user->setConfirmationToken($tokenGenerator->generateToken());
@@ -90,7 +103,7 @@ class MainController extends Controller
             ->isPasswordValid($user, $password);
 
         if (!$isValid) {
-            return ['error' => 'Bad password'];
+            return ['error' => 'Incorrect password'];
         }
 
         $em = $this->getDoctrine()->getEntityManager();
