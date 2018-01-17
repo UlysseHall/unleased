@@ -15,7 +15,7 @@ class MainController extends Controller
      * @Rest\Get("/register/{email}/{username}/{password}", name="main_api_register")
      */
     public function RegisterAction($email, $username, $password)
-    {
+    {0
         $request = Request::createFromGlobals();
         $tokenGenerator = $this->container->get('fos_user.util.token_generator');
         $mailer = $this->container->get('fos_user.mailer');
@@ -26,13 +26,13 @@ class MainController extends Controller
 
         if ($user !== null)
         {
-            return ['error' => "Pseudo déjà utilisé"];
+            return ['error' => "Username already taken"];
         }
 
         $user = $userManager->findUserBy(['email' => $email]);
         if ($user !== null)
         {
-            return ['error' => "Adresse email déjà utilisé"];
+            return ['error' => "Email already taken"];
         }
 
         $user = $userManager->createUser();
@@ -69,7 +69,7 @@ class MainController extends Controller
                 ->getRepository('UserBundle:User')
                 ->findOneBy(['email' => $username]);
             if(!$user){
-                return ['error' => 'Ce pseudo ou cette adresse mail ne correspond a aucun compte'];
+                return ['error' => 'Username or email not found'];
             }
         }
 
@@ -77,7 +77,7 @@ class MainController extends Controller
             ->isPasswordValid($user, $password);
 
         if (!$isValid) {
-            return ['error' => 'Mot de passe incorrect'];
+            return ['error' => 'Bad password'];
         }
 
         $em = $this->getDoctrine()->getEntityManager();
