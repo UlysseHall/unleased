@@ -80,27 +80,27 @@ class MainController extends Controller
 
     /**
      * @Rest\View()
-     * @Rest\Get("/login/{username}/{password}", name="main_api_login")
+     * @Rest\Post("/login", name="main_api_login")
      */
-    public function LoginAction($username, $password)
+    public function LoginAction(Request $request)
     {
-        $request = Request::createFromGlobals();
+        $postVars = $request->request->all();
 
         $user = $this->getDoctrine()
             ->getRepository('UserBundle:User')
-            ->findOneBy(['username' => $username]);
+            ->findOneBy(['username' => $postVars['username']]);
 
         if (!$user) {
             $user = $this->getDoctrine()
                 ->getRepository('UserBundle:User')
-                ->findOneBy(['email' => $username]);
+                ->findOneBy(['email' => $postVars['username']]);
             if(!$user){
                 return ['error' => 'Username or email not found'];
             }
         }
 
         $isValid = $this->get('security.password_encoder')
-            ->isPasswordValid($user, $password);
+            ->isPasswordValid($user, $postVars['password']);
 
         if (!$isValid) {
             return ['error' => 'Incorrect password'];
