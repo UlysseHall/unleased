@@ -1,0 +1,103 @@
+<?php
+
+namespace MainBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Code
+ *
+ * @ORM\Table(name="code")
+ * @ORM\Entity(repositoryClass="MainBundle\Repository\CodeRepository")
+ */
+class Code
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="code", type="string", length=255, unique=true)
+     */
+    private $code;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="enable", type="boolean")
+     */
+    private $enable;
+
+    public function __construct()
+    {
+        $this->setEnable(true);
+        $code = strtoupper(bin2hex(openssl_random_pseudo_bytes(5)));
+        $this->setCode($code);
+    }
+
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set code
+     *
+     * @param string $code
+     *
+     * @return Code
+     */
+    public function setCode($code)
+    {
+        $this->code = $code;
+
+        return $this;
+    }
+
+    /**
+     * Get code
+     *
+     * @return string
+     */
+    public function getCode()
+    {
+        return $this->code;
+    }
+
+    /**
+     * Set enable
+     *
+     * @param boolean $enable
+     *
+     * @return Code
+     */
+    public function setEnable($enable)
+    {
+        $this->enable = $enable;
+
+        return $this;
+    }
+
+    /**
+     * Get enable
+     *
+     * @return bool
+     */
+    public function getEnable()
+    {
+        return $this->enable;
+    }
+}
+

@@ -7,6 +7,7 @@ use FOS\RestBundle\Controller\Annotations as Rest;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
+use MainBundle\Entity\Code;
 
 class MainController extends Controller
 {
@@ -16,6 +17,9 @@ class MainController extends Controller
      */
     public function indexAction()
     {
+        $code = new Code();
+        dump($code);
+        die();
         return new Response("Bienvenu sur l'API de Unleased, la super app secrète dont faut pas trop parler.");
     }
 
