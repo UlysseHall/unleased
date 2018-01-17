@@ -94,3 +94,9 @@ fos_user:
     from_email:
       address: admin@livepush.fr
       sender_name: Unleased App
+      
+nelmio_cors:
+    defaults:
+        allow_origin: ['*']
+        allow_headers: ['*']
+        allow_methods: ['POST', 'PUT', 'GET', 'DELETE']

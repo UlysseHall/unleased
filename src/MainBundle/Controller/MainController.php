@@ -22,33 +22,31 @@ class MainController extends Controller
 
     /**
      * @Rest\View()
-     * @Rest\Get("/register/{email}/{username}/{password}/{code}", name="main_api_register")
+     * @Rest\Post("/register", name="main_api_register")
      */
     public function RegisterAction(Request $request)
     {
         $postVars = $request->request->all();
-        return dump($postVars);
-        die();
         $tokenGenerator = $this->container->get('fos_user.util.token_generator');
         $mailer = $this->container->get('fos_user.mailer');
         $session = new Session();
 
         $userManager = $this->get('fos_user.user_manager');
-        $user = $userManager->findUserBy(['username' => $username]);
+        $user = $userManager->findUserBy(['username' => $postVars['username']]);
 
         if ($user !== null)
         {
             return ['error' => "Username already taken"];
         }
 
-        $user = $userManager->findUserBy(['email' => $email]);
+        $user = $userManager->findUserBy(['email' => $postVars['email']]);
         if ($user !== null)
         {
             return ['error' => "Email already taken"];
         }
 
         $em = $this->getDoctrine()->getManager();
-        $key = $em->getRepository('MainBundle:Code')->findOneBy(['code' => $code]);
+        $key = $em->getRepository('MainBundle:Code')->findOneBy(['code' => $postVars['code']]);
 
         if(!$key || !$key->getEnable()) {
             return ['error' => "Incorrect code"];
@@ -60,9 +58,9 @@ class MainController extends Controller
         $newCode2 = new Code();
 
         $user = $userManager->createUser();
-        $user->setUsername($username);
-        $user->setEmail($email);
-        $user->setPlainPassword($password);
+        $user->setUsername($postVars['username']);
+        $user->setEmail($postVars['email']);
+        $user->setPlainPassword($postVars['password']);
         $user->setEnabled(true);
         $user->addCode($newCode1);
         $user->addCode($newCode2);
