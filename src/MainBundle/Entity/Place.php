@@ -68,6 +68,9 @@ class Place
      */
     private $level;
 
+    public function __construct() {
+      $this->setEnabled(false);
+    }
 
     /**
      * Get id
