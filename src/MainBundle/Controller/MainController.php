@@ -12,10 +12,19 @@ class MainController extends Controller
 {
     /**
      * @Rest\View()
+     * @Rest\Get("/", name="main_api_index")
+     */
+    public function indexAction()
+    {
+        return new Response("Bienvenu sur l'API de Unleased, la super app secrète dont faut pas trop parler.");
+    }
+
+    /**
+     * @Rest\View()
      * @Rest\Get("/register/{email}/{username}/{password}", name="main_api_register")
      */
     public function RegisterAction($email, $username, $password)
-    {0
+    {
         $request = Request::createFromGlobals();
         $tokenGenerator = $this->container->get('fos_user.util.token_generator');
         $mailer = $this->container->get('fos_user.mailer');

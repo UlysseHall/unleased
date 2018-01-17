@@ -79,7 +79,7 @@ fos_rest:
     format_listener:
         rules:
             - { path: '^/', priorities: ['json'], fallback_format: 'json' }
-#            - { path: '^/', priorities: [ 'html', '*/*'], fallback_format: ~, prefer_extension: false }
+            - { path: '^/^', priorities: [ 'html', '*/*'], fallback_format: ~, prefer_extension: false }
 
 fos_user:
     db_driver:     orm
