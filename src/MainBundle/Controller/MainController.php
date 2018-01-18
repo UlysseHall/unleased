@@ -64,6 +64,7 @@ class MainController extends Controller
         $user->setEnabled(true);
         $user->addCode($newCode1);
         $user->addCode($newCode2);
+        $user->setApiKey(hash('sha256', uniqid('', true)));
 
         $em->flush();
 
@@ -73,7 +74,7 @@ class MainController extends Controller
 
         $userManager->updateUser($user);
 
-        $data = ['success' => true];
+        $data = ['success' => true, 'token' => $user->getApiKey()];
 
         return $data;
     }
@@ -111,7 +112,7 @@ class MainController extends Controller
         $user->setApiKey(hash('sha256', uniqid('', true)));
         $em->flush();
 
-        $data = ['success' => true];
+        $data = ['success' => true, 'token' => $user->getApiKey()];
 
         return $data;
     }

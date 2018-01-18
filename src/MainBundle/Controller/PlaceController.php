@@ -7,6 +7,7 @@ use FOS\RestBundle\Controller\Annotations as Rest;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Doctrine\ORM\EntityRepository;
 use MainBundle\Entity\Place;
 use UserBundle\Entity\User;
 use MainBundle\Entity\Level;
@@ -41,15 +42,14 @@ class PlaceController extends Controller
 
     /**
      * @Rest\View()
-     * @Rest\Get("/places/level/{level_id}", name="get_places_by_level")
+     * @Rest\Get("/places/level/{level_position}", name="get_places_by_level")
      */
-      public function getPlacesByLevelAction($level_id,$enabled=true)
+      public function getPlacesByLevelAction($level_position,$enabled=true)
       {
         $em = $this->get('doctrine')->getManager();
-        $places = $em->getRepository('MainBundle:Place')->findBy(['level'=>$level_id,'enabled'=>$enabled]);
-        if (empty($places)) {
-          return ['id' => $level_id.' => non trouvé'];
-        }
+        
+        $places = $em->getRepository('MainBundle:Place')->getPlaceByPosition($level_position, $enabled);
+        
         return $places;
       }
 

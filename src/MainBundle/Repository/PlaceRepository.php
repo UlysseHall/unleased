@@ -10,4 +10,23 @@ namespace MainBundle\Repository;
  */
 class PlaceRepository extends \Doctrine\ORM\EntityRepository
 {
+    
+    public function getPlaceByPosition($position, $enabled) {
+        $qb = $this
+            ->createQueryBuilder('p')
+            ->where('p.enabled = :enabled')
+                ->setParameter('enabled', $enabled)
+            ->leftJoin('p.level', 'level')
+                ->addSelect('level')
+            ->andWhere('level.position <= :position')
+                ->setParameter('position', $position)
+        ;
+
+        return $qb
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+
 }
