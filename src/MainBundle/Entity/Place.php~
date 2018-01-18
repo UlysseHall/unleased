@@ -68,6 +68,16 @@ class Place
      */
     private $level;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="img", type="string", length=255)
+     */
+    private $img;
+
+    public function __construct() {
+      $this->setEnabled(false);
+    }
 
     /**
      * Get id
@@ -198,5 +208,53 @@ class Place
     {
         return $this->enabled;
     }
-}
 
+    /**
+     * Set user
+     *
+     * @param \UserBundle\Entity\User $user
+     *
+     * @return Place
+     */
+    public function setUser(\UserBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \UserBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * Set level
+     *
+     * @param \MainBundle\Entity\Level $level
+     *
+     * @return Place
+     */
+    public function setLevel(\MainBundle\Entity\Level $level)
+    {
+        $level->addPlace($this);
+        $this->level = $level;
+
+        return $this;
+    }
+
+    /**
+     * Get level
+     *
+     * @return \MainBundle\Entity\Level
+     */
+    public function getLevel()
+    {
+        return $this->level;
+    }
+}

@@ -68,6 +68,13 @@ class Place
      */
     private $level;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="img", type="string", length=255)
+     */
+    private $img;
+
     public function __construct() {
       $this->setEnabled(false);
     }
@@ -249,5 +256,29 @@ class Place
     public function getLevel()
     {
         return $this->level;
+    }
+
+    /**
+     * Set img
+     *
+     * @param string $img
+     *
+     * @return Place
+     */
+    public function setImg($img)
+    {
+        $this->img = $img;
+
+        return $this;
+    }
+
+    /**
+     * Get img
+     *
+     * @return string
+     */
+    public function getImg()
+    {
+        return $this->img;
     }
 }
