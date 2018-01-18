@@ -74,6 +74,20 @@ class Place
      * @ORM\Column(name="img", type="string", length=255)
      */
     private $img;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="location", type="string", length=255)
+     */
+    private $location;
+    
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="distance", type="integer")
+     */
+    private $distance;
 
     public function __construct() {
       $this->setEnabled(false);
@@ -280,5 +294,53 @@ class Place
     public function getImg()
     {
         return $this->img;
+    }
+
+    /**
+     * Set location
+     *
+     * @param string $location
+     *
+     * @return Place
+     */
+    public function setLocation($location)
+    {
+        $this->location = $location;
+
+        return $this;
+    }
+
+    /**
+     * Get location
+     *
+     * @return string
+     */
+    public function getLocation()
+    {
+        return $this->location;
+    }
+
+    /**
+     * Set distance
+     *
+     * @param integer $distance
+     *
+     * @return Place
+     */
+    public function setDistance($distance)
+    {
+        $this->distance = $distance;
+
+        return $this;
+    }
+
+    /**
+     * Get distance
+     *
+     * @return integer
+     */
+    public function getDistance()
+    {
+        return $this->distance;
     }
 }
